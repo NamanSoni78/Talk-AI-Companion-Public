@@ -6,7 +6,7 @@
 
 **Free &amp; open-source AI companion chat UI — 6 desi personalities, Hinglish + English, zero sign-up.**
 
-*The open-source playground of [Talk](https://talkaicompanion.com?utm_source=github&utm_medium=readme) — India's AI companion app with memory, voice calls &amp; stories.*
+*The open-source demo playground of [Main Talk AI Companion](https://talkaicompanion.com?utm_source=github&utm_medium=readme) — India's AI companion app with memory, voice calls &amp; stories.*
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-fb7185.svg)](LICENSE)
 [![Cloudflare Workers](https://img.shields.io/badge/deploys%20on-Cloudflare%20Workers-f38020?logo=cloudflare&logoColor=white)](https://workers.cloudflare.com)
