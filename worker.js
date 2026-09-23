@@ -313,8 +313,15 @@ export default {
       );
     }
 
-    if (url.pathname === "/api/chat") {
+        if (url.pathname === "/api/chat") {
       return handleChat(request, env);
+    }
+
+    // Everything else (the UI, images, character cards) → static assets
+    // from public/. Required because wrangler.toml sets `binding = "ASSETS"`,
+    // which makes this worker run on every request.
+    if (env.ASSETS) {
+      return env.ASSETS.fetch(request);
     }
 
     return json({ error: "not_found", hint: "try /api/health" }, 404);
