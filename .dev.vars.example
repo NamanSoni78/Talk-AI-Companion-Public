@@ -5,7 +5,7 @@
 #
 # NEVER commit your real .dev.vars. In production use:
 #   wrangler secret put API_KEYS
-# ──────────────────────────────────────────────────────────────
+# ─────────────────────────────────────────────────────────────
 
 # Your OpenAI-compatible keys, semicolon-separated.
 # One is picked at random per request; on 429/401 the worker rotates to another.
