@@ -6,10 +6,9 @@ name = "talk-ai-companion-playground"
 main = "worker.js"
 compatibility_date = "2025-09-01"
 
-# Serve everything in public/ as static assets.
-# Requests that don't match an asset (i.e. /api/*) fall through to worker.js.
 [assets]
 directory = "./public"
+binding = "ASSETS"
 
 [observability]
 enabled = true
