@@ -16,7 +16,7 @@
 <!-- OWNER NOTE: after `wrangler deploy`, replace the "Live demo" link below with your
      default workers.dev URL (no custom domain needed):
      https://talk-ai-companion-playground.<your-subdomain>.workers.dev -->
-[Live demo →](https://talkaicompanion.com?utm_source=github&utm_medium=readme) · [Self-host in 5 min](SELF-HOST.md) · [Meet all 11 companions](https://talkaicompanion.com/companions?utm_source=github&utm_medium=readme)
+[Live demo →]( https://talk-ai-companion-playground.payment-6bd.workers.dev) · [Self-host in 5 min](SELF-HOST.md) · [Meet all 11 companions](https://talkaicompanion.com/companions?utm_source=github&utm_medium=readme)
 
 </div>
 
