@@ -1,0 +1,23 @@
+# Talk AI Companion Playground — Cloudflare Workers config
+# Docs: https://developers.cloudflare.com/workers/static-assets/
+# Self-host guide: SELF-HOST.md
+
+name = "talk-ai-companion-playground"
+main = "worker.js"
+compatibility_date = "2025-09-01"
+
+# Serve everything in public/ as static assets.
+# Requests that don't match an asset (i.e. /api/*) fall through to worker.js.
+[assets]
+directory = "./public"
+
+[observability]
+enabled = true
+
+# Secrets — set with `wrangler secret put`, NEVER commit real values:
+#   wrangler secret put API_KEYS      → "sk-key-one;sk-key-two;sk-key-three"
+#   wrangler secret put API_BASE_URL  → "https://api.openai.com/v1"
+#   wrangler secret put API_MODEL     → "gpt-4o-mini"
+# Optional (set via [vars] below or dashboard):
+#   RATE_LIMIT_PER_DAY  → messages per IP per day (default 40)
+#   ALLOWED_ORIGINS     → extra origins for cross-origin UI hosting, e.g. "https://yourname.github.io"

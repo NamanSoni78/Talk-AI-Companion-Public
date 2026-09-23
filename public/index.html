@@ -1,0 +1,730 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Talk AI Companion Playground — Free &amp; Open Source AI Chat (Hinglish)</title>
+<meta name="description" content="Free, open-source AI companion chat playground. 6 desi AI companions — a 2AM bestie, a high-chemistry girlfriend energy, a startup mentor, a midnight RJ and more. Hinglish + English. No sign-up, no OTP. A teaser for talkaicompanion.com." />
+<meta name="keywords" content="free ai companion, open source ai chat, ai girlfriend, ai best friend, hinglish ai chat, character card, ai chat ui, talk ai companion" />
+<meta property="og:title" content="Talk AI Companion Playground — Free &amp; Open Source" />
+<meta property="og:description" content="Chat free with 6 desi AI companions. Hinglish + English. The open-source teaser for talkaicompanion.com — memory, voice calls & spicy mode live on the full app." />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="/assets/og-banner.png" />
+<meta name="theme-color" content="#0a0a12" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23fb7185'/%3E%3Cstop offset='1' stop-color='%23f43f5e'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect x='4' y='4' width='56' height='56' rx='18' fill='url(%23g)'/%3E%3Cpath d='M18 24h28M18 33h20M18 42h12' stroke='white' stroke-width='5' stroke-linecap='round'/%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --bg:#0a0a12; --bg2:#0e0e18;
+  --surface:rgba(255,255,255,.045);
+  --surface2:rgba(255,255,255,.07);
+  --border:rgba(255,255,255,.09);
+  --border2:rgba(255,255,255,.14);
+  --text:#f2f2f7; --muted:#a3a3b5; --dim:#6f6f83;
+  --rose:#fb7185; --rose2:#f43f5e;
+  --grad:linear-gradient(135deg,#fb7185,#f43f5e);
+  --r-lg:22px; --r-md:16px; --r-sm:11px;
+  --font-display:'Space Grotesk',ui-sans-serif,system-ui,sans-serif;
+  --font-body:'Inter',ui-sans-serif,system-ui,sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{
+  font-family:var(--font-body); background:var(--bg); color:var(--text);
+  -webkit-font-smoothing:antialiased; overflow-x:hidden;
+}
+body::before,body::after{
+  content:""; position:fixed; z-index:0; border-radius:50%; filter:blur(110px); pointer-events:none;
+}
+body::before{ width:560px;height:560px; top:-220px; right:-140px; background:rgba(244,63,94,.14); }
+body::after{ width:520px;height:520px; bottom:-240px; left:-160px; background:rgba(168,85,247,.09); }
+#app{position:relative;z-index:1;min-height:100dvh}
+
+a{color:var(--rose);text-decoration:none}
+a:hover{text-decoration:underline}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+img{display:block}
+
+/* ------------------------------ onboarding ------------------------------ */
+.onboarding{max-width:940px;margin:0 auto;padding:48px 22px 80px}
+.brand{display:flex;align-items:center;gap:10px;margin-bottom:44px}
+.brand .dot{width:34px;height:34px;border-radius:11px;background:var(--grad);display:grid;place-items:center;font-family:var(--font-display);font-weight:700;color:#fff;font-size:17px;box-shadow:0 4px 22px rgba(244,63,94,.45)}
+.brand .word{font-family:var(--font-display);font-weight:600;font-size:19px;letter-spacing:.2px}
+.brand .badge{margin-left:auto;font-size:11.5px;font-weight:600;color:var(--muted);border:1px solid var(--border);border-radius:99px;padding:5px 11px;background:var(--surface)}
+.hero-kicker{font-size:12.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--rose);margin-bottom:14px}
+h1{font-family:var(--font-display);font-weight:700;font-size:clamp(30px,5.2vw,46px);line-height:1.12;letter-spacing:-.02em;max-width:720px}
+h1 .grad{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero-sub{color:var(--muted);font-size:15.5px;line-height:1.65;margin:18px 0 26px;max-width:560px}
+.hero-sub b{color:var(--text);font-weight:600}
+.name-form{display:flex;gap:10px;max-width:560px;margin-bottom:12px}
+.name-form input{
+  flex:1;background:var(--surface);border:1px solid var(--border2);border-radius:var(--r-md);
+  padding:15px 18px;color:var(--text);font-size:15.5px;font-family:var(--font-body);outline:none;transition:border-color .15s, box-shadow .15s;
+}
+.name-form input:focus{border-color:var(--rose);box-shadow:0 0 0 3px rgba(244,63,94,.18)}
+.name-form input::placeholder{color:var(--dim)}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  background:var(--grad);color:#fff;font-weight:600;font-size:15px;
+  border-radius:var(--r-md);padding:14px 24px;transition:transform .12s, box-shadow .12s;
+  box-shadow:0 6px 26px rgba(244,63,94,.35);white-space:nowrap;
+}
+.btn:hover{transform:translateY(-1px);box-shadow:0 10px 32px rgba(244,63,94,.5)}
+.btn:active{transform:translateY(0)}
+.btn.ghost{background:var(--surface);border:1px solid var(--border2);box-shadow:none;color:var(--text)}
+.btn.ghost:hover{background:var(--surface2)}
+.no-signup{font-size:12.5px;color:var(--dim);margin-bottom:40px}
+.no-signup span{margin-right:14px}
+
+.roster-head{display:flex;align-items:baseline;justify-content:space-between;gap:14px;margin:8px 0 18px;flex-wrap:wrap}
+.roster-head h2{font-family:var(--font-display);font-size:20px;font-weight:600}
+.roster-head a{font-size:13.5px;font-weight:600}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(255px,1fr));gap:14px}
+.comp-card{
+  display:flex;gap:14px;align-items:center;text-align:left;
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);
+  padding:14px;transition:transform .14s, border-color .14s, background .14s;
+}
+.comp-card:hover{transform:translateY(-3px);border-color:rgba(251,113,133,.55);background:var(--surface2)}
+.comp-card img{width:64px;height:64px;border-radius:16px;object-fit:cover;background:#1a1a26;flex-shrink:0}
+.comp-card .info{min-width:0;flex:1}
+.comp-card .nm{font-family:var(--font-display);font-weight:600;font-size:16.5px;display:flex;align-items:center;gap:7px}
+.comp-card .nm .live{width:7px;height:7px;border-radius:50%;background:#4ade80;box-shadow:0 0 8px #4ade80;flex-shrink:0}
+.comp-card .tag{font-size:12.8px;color:var(--muted);margin:4px 0 8px;line-height:1.45}
+.chips{display:flex;gap:5px;flex-wrap:wrap}
+.chip{font-size:10.5px;font-weight:600;color:var(--rose);background:rgba(251,113,133,.1);border:1px solid rgba(251,113,133,.22);border-radius:99px;padding:3px 9px}
+.chip.gray{color:var(--muted);background:var(--surface);border-color:var(--border)}
+.ghost-card{
+  display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:8px;
+  border:1.5px dashed rgba(251,113,133,.4);border-radius:var(--r-lg);padding:14px 18px;
+  background:rgba(251,113,133,.04);transition:background .14s;min-height:92px;
+}
+.ghost-card:hover{background:rgba(251,113,133,.09)}
+.ghost-card .t{font-family:var(--font-display);font-weight:600;font-size:15px}
+.ghost-card .d{font-size:12.5px;color:var(--muted);line-height:1.5}
+.foot{margin-top:52px;padding-top:24px;border-top:1px solid var(--border);display:flex;flex-wrap:wrap;gap:8px 22px;align-items:center;font-size:13px;color:var(--dim)}
+.foot a{color:var(--muted);font-weight:500}
+.foot a:hover{color:var(--rose);text-decoration:none}
+.foot .sp{flex:1}
+
+/* -------------------------------- chat ---------------------------------- */
+.chat{display:flex;flex-direction:column;height:100dvh;max-width:860px;margin:0 auto;position:relative;z-index:1}
+.chat-head{
+  display:flex;align-items:center;gap:12px;padding:12px 16px;
+  border-bottom:1px solid var(--border);background:rgba(10,10,18,.75);backdrop-filter:blur(14px);
+  position:sticky;top:0;z-index:5;
+}
+.chat-head .back{width:36px;height:36px;border-radius:11px;background:var(--surface);border:1px solid var(--border);display:grid;place-items:center;font-size:16px;color:var(--muted);transition:background .12s}
+.chat-head .back:hover{background:var(--surface2);color:var(--text)}
+.chat-head img{width:42px;height:42px;border-radius:13px;object-fit:cover}
+.chat-head .who{flex:1;min-width:0}
+.chat-head .who .nm{font-family:var(--font-display);font-weight:600;font-size:16px;display:flex;align-items:center;gap:7px}
+.chat-head .who .nm .live{width:7px;height:7px;border-radius:50%;background:#4ade80;box-shadow:0 0 8px #4ade80}
+.chat-head .who .st{font-size:12px;color:var(--dim);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lockbtns{display:flex;gap:8px}
+.lockbtn{
+  display:flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;color:var(--muted);
+  background:var(--surface);border:1px solid var(--border);border-radius:99px;padding:7px 13px;position:relative;transition:all .12s;
+}
+.lockbtn:hover{border-color:rgba(251,113,133,.5);color:var(--text)}
+.lockbtn .lk{font-size:10px;opacity:.75}
+.lockbtn.reset{padding:7px 11px}
+.reset:hover{border-color:rgba(248,113,113,.5)}
+
+.banner{
+  display:none;gap:9px;align-items:flex-start;font-size:12.5px;line-height:1.55;color:#fde68a;
+  background:rgba(251,191,36,.07);border-bottom:1px solid rgba(251,191,36,.22);padding:9px 16px;
+}
+.banner.show{display:flex}
+.banner a{color:#fcd34d;font-weight:600}
+.banner .ic{flex-shrink:0;margin-top:1px}
+
+.msgs{flex:1;overflow-y:auto;padding:20px 16px 12px;display:flex;flex-direction:column;gap:14px;scroll-behavior:smooth}
+.msgs::-webkit-scrollbar{width:9px}
+.msgs::-webkit-scrollbar-thumb{background:rgba(255,255,255,.12);border-radius:99px;border:2px solid var(--bg)}
+.row{display:flex;gap:10px;max-width:86%;animation:pop .22s ease}
+@keyframes pop{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
+.row.user{align-self:flex-end;flex-direction:row-reverse}
+.row .av{width:34px;height:34px;border-radius:11px;object-fit:cover;flex-shrink:0;align-self:flex-end;margin-bottom:2px}
+.bubble{
+  padding:11px 15px;font-size:14.8px;line-height:1.62;border-radius:20px;white-space:pre-wrap;word-break:break-word;
+}
+.row:not(.user) .bubble{background:var(--surface);border:1px solid var(--border);border-bottom-left-radius:7px;color:var(--text)}
+.row.user .bubble{background:var(--grad);color:#fff;border-bottom-right-radius:7px;box-shadow:0 4px 18px rgba(244,63,94,.3)}
+.typing .bubble{display:flex;gap:5px;align-items:center;padding:15px 17px}
+.typing .d{width:7px;height:7px;border-radius:50%;background:var(--muted);animation:blink 1.2s infinite}
+.typing .d:nth-child(2){animation-delay:.18s}.typing .d:nth-child(3){animation-delay:.36s}
+@keyframes blink{0%,80%,100%{opacity:.25;transform:translateY(0)}40%{opacity:1;transform:translateY(-3px)}}
+
+/* teaser cards */
+.teaser{
+  align-self:center;max-width:88%;text-align:center;
+  background:linear-gradient(180deg,rgba(251,113,133,.09),rgba(244,63,94,.04));
+  border:1px solid rgba(251,113,133,.28);border-radius:var(--r-lg);
+  padding:18px 20px 16px;animation:pop .3s ease;
+}
+.teaser .em{font-size:22px;margin-bottom:8px}
+.teaser .tt{font-family:var(--font-display);font-weight:600;font-size:15px;margin-bottom:6px}
+.teaser .bd{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:12px}
+.teaser .bd b{color:var(--text)}
+.teaser .cta{display:inline-flex;align-items:center;gap:7px;background:var(--grad);color:#fff;font-weight:600;font-size:13.5px;border-radius:99px;padding:9px 18px;box-shadow:0 5px 20px rgba(244,63,94,.4)}
+.teaser .cta:hover{text-decoration:none;transform:translateY(-1px)}
+.teaser .cta .arrow{transition:transform .12s}
+.teaser .cta:hover .arrow{transform:translateX(2px)}
+
+.composer{display:flex;gap:10px;padding:12px 16px 16px;border-top:1px solid var(--border);background:rgba(10,10,18,.8);backdrop-filter:blur(14px)}
+.composer textarea{
+  flex:1;resize:none;background:var(--surface);border:1px solid var(--border2);border-radius:var(--r-md);
+  padding:12px 15px;color:var(--text);font-family:var(--font-body);font-size:15px;line-height:1.5;outline:none;
+  max-height:110px;transition:border-color .15s, box-shadow .15s;
+}
+.composer textarea:focus{border-color:var(--rose);box-shadow:0 0 0 3px rgba(244,63,94,.15)}
+.composer textarea::placeholder{color:var(--dim)}
+.send{
+  width:48px;height:48px;border-radius:var(--r-md);background:var(--grad);display:grid;place-items:center;
+  box-shadow:0 5px 20px rgba(244,63,94,.4);transition:transform .12s,opacity .12s;flex-shrink:0;
+}
+.send:hover{transform:translateY(-1px)}
+.send:disabled{opacity:.45;cursor:not-allowed;transform:none;box-shadow:none}
+.send svg{width:19px;height:19px;fill:#fff}
+
+/* modal + toast */
+.overlay{position:fixed;inset:0;z-index:50;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(5,5,10,.72);backdrop-filter:blur(6px)}
+.overlay.show{display:flex}
+.modal{
+  width:100%;max-width:400px;background:#14141f;border:1px solid var(--border2);border-radius:24px;
+  padding:26px;text-align:center;animation:pop .25s ease;box-shadow:0 24px 80px rgba(0,0,0,.6);
+}
+.modal .em{font-size:34px;margin-bottom:12px}
+.modal h3{font-family:var(--font-display);font-size:19px;font-weight:600;margin-bottom:10px}
+.modal p{font-size:13.8px;color:var(--muted);line-height:1.65;margin-bottom:20px}
+.modal p b{color:var(--text)}
+.modal .mcta{display:flex;flex-direction:column;gap:9px}
+.modal .note{margin-top:14px;font-size:11px;color:var(--dim)}
+.toast{
+  position:fixed;left:50%;bottom:26px;transform:translate(-50%,90px);z-index:60;
+  background:#1b1b28;border:1px solid var(--border2);border-radius:14px;padding:12px 18px;
+  font-size:13.5px;color:var(--text);max-width:88vw;box-shadow:0 12px 40px rgba(0,0,0,.55);
+  transition:transform .25s ease;text-align:center;
+}
+.toast.show{transform:translate(-50%,0)}
+.toast a{font-weight:600}
+
+@media(max-width:640px){
+  .onboarding{padding:34px 18px 60px}
+  .grid{grid-template-columns:1fr 1fr;gap:10px}
+  .comp-card{flex-direction:column;align-items:flex-start;gap:10px;padding:13px}
+  .comp-card img{width:100%;height:120px;border-radius:14px}
+  .row{max-width:94%}
+  .chat-head .who .st{max-width:110px}
+  .lockbtn span.lbl{display:none}
+  .lockbtn{padding:8px 11px}
+  .banner{font-size:11.5px}
+}
+@media(max-width:400px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div id="app">
+<!-- ═════════════════════ ONBOARDING ═════════════════════ -->
+<section id="onboarding" class="onboarding">
+  <div class="brand">
+    <div class="dot">T</div>
+    <div class="word">Talk <span style="color:var(--dim);font-weight:400">Playground</span></div>
+    <div class="badge">★ open source · MIT</div>
+  </div>
+
+  <div class="hero-kicker">Free · No sign-up · Hinglish + English</div>
+  <h1>Chat with an AI companion who feels like a <span class="grad">real person</span>.</h1>
+  <p class="hero-sub">
+    This is the <b>open-source playground</b> of <a href="https://talkaicompanion.com?utm_source=github&utm_medium=playground" target="_blank" rel="noopener">Talk — India's AI companion app</a>.
+    Pick a personality, start typing. Memory that lasts weeks, live <b>voice calls</b> and 5 more companions live on the full app — this playground is the free taste.
+  </p>
+
+  <div class="name-form">
+    <input id="nameInput" type="text" maxlength="30" placeholder="sirf naam batao…" autocomplete="off" />
+    <button class="btn" id="nameGo">Start chatting →</button>
+  </div>
+  <div class="no-signup"><span>✓ no OTP</span><span>✓ no email</span><span>✓ nothing to install</span></div>
+
+  <div class="roster-head">
+    <h2>Pick your companion</h2>
+    <a href="https://talkaicompanion.com/companions?utm_source=github&utm_medium=playground" target="_blank" rel="noopener">all 11 on Talk →</a>
+  </div>
+  <div class="grid" id="rosterGrid"><!-- cards injected --></div>
+
+  <div class="foot">
+    <a href="https://talkaicompanion.com?utm_source=github&utm_medium=playground" target="_blank" rel="noopener">🌐 talkaicompanion.com</a>
+    <a href="https://talkaicompanion.com/companions?utm_source=github&utm_medium=playground" target="_blank" rel="noopener">Companions</a>
+    <a href="https://talkaicompanion.com/stories?utm_source=github&utm_medium=playground" target="_blank" rel="noopener">Stories</a>
+    <a href="https://github.com/NamanSoni78/Talk-AI-Companion-Public" target="_blank" rel="noopener">GitHub</a>
+    <span class="sp"></span>
+    <span>Playground is SFW &amp; memory-less by design — <a href="https://talkaicompanion.com/features/ai-memory?utm_source=github&utm_medium=playground" target="_blank" rel="noopener">the real thing remembers</a>.</span>
+  </div>
+</section>
+
+<!-- ═════════════════════ CHAT ═════════════════════ -->
+<section id="chatView" class="chat" style="display:none">
+  <div class="chat-head">
+    <button class="back" id="backBtn" title="Change companion">←</button>
+    <img id="cAvatar" alt="companion avatar" src="" />
+    <div class="who">
+      <div class="nm"><span id="cName"></span><span class="live"></span></div>
+      <div class="st" id="cStatus"></div>
+    </div>
+    <div class="lockbtns">
+      <button class="lockbtn" id="voiceBtn" title="Voice calls live on the full app">📞 <span class="lbl">Call</span> <span class="lk">🔒</span></button>
+      <button class="lockbtn" id="spicyBtn" title="Spicy mode (18+) lives on the full app">🔥 <span class="lbl">Spicy</span> <span class="lk">🔒</span></button>
+      <button class="lockbtn reset" id="resetBtn" title="Reset chat">🗑</button>
+    </div>
+  </div>
+
+  <div class="banner" id="demoBanner">
+    <span class="ic">⚡</span>
+    <span><b>Scripted demo mode</b> — replies are pre-written here. The real AI needs a deployed worker (<a href="https://github.com/NamanSoni78/Talk-AI-Companion-Public/blob/main/SELF-HOST.md" target="_blank" rel="noopener">5-min self-host</a>) or <a href="https://talkaicompanion.com?utm_source=github&utm_medium=demo_banner" target="_blank" rel="noopener">the full app — free</a>.</span>
+  </div>
+
+  <div class="msgs" id="msgs"></div>
+
+  <div class="composer">
+    <textarea id="input" rows="1" placeholder="message likho… (Enter to send)"></textarea>
+    <button class="send" id="sendBtn" title="Send">
+      <svg viewBox="0 0 24 24"><path d="M3.4 20.4l17.45-7.48a1 1 0 000-1.84L3.4 3.6a.993.993 0 00-1.39.91L2 9.12c0 .5.37.93.87.99L17 12 2.87 13.88c-.5.07-.87.5-.87 1l.01 4.61c0 .71.73 1.2 1.39.91z"/></svg>
+    </button>
+  </div>
+</section>
+
+<!-- ═════════════════════ LOCKED-FEATURE MODAL ═════════════════════ -->
+<div class="overlay" id="modalOverlay">
+  <div class="modal">
+    <div class="em" id="mEmoji">📞</div>
+    <h3 id="mTitle"></h3>
+    <p id="mBody"></p>
+    <div class="mcta">
+      <a class="btn" id="mCta" href="#" target="_blank" rel="noopener"></a>
+      <button class="btn ghost" id="mClose">Stay in the playground</button>
+    </div>
+    <div class="note" id="mNote"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+</div>
+<script>
+/* ═══════════════ Talk AI Companion Playground — client ═══════════════
+   Single-file, zero-dependency chat UI. Talks to the Cloudflare Worker
+   (worker.js) when deployed; falls back to a scripted demo otherwise.
+   Full app → https://talkaicompanion.com ═══════════════════════════════ */
+
+const SITE = "https://talkaicompanion.com";
+const UTM  = "utm_source=github&utm_medium=playground";
+
+/* Roster — mirrors public/characters/*.json (cards drive the model). */
+const COMPANIONS = {
+  arya: {
+    name: "Arya", tagline: "your 2AM bestie — gossip, gyaan & gussa",
+    status: "online · 65% Hinglish guaranteed",
+    avatar: "assets/companions/arya.png",
+    chips: ["2AM calls", "brutally honest", "chai + SRK"],
+    greeting: "arre {name}!! finally koi to hai 🙌 bol — aaj ka haal kaisa hai? aur sun, jo bhi bologe main bura nahi lungi… thoda lungi 😌",
+  },
+  aarohi: {
+    name: "Aarohi", tagline: "high-chemistry — she makes you earn every 'hmm'",
+    status: "online · CAD files open, patience closed",
+    avatar: "assets/companions/aarohi.png",
+    chips: ["sharp teasing", "no free validation", "midnight oil"],
+    greeting: "oh? {name}. theek hai, you have my attention — for the next 5 minutes 😏 bol kya baat hai?",
+  },
+  kabir: {
+    name: "Kabir", tagline: "startup bro + gym partner + life coach",
+    status: "online · 5AM done, your excuses pending",
+    avatar: "assets/companions/kabir.png",
+    chips: ["no excuses", "dry humour", "builds systems"],
+    greeting: "{name}. good, you showed up. Most people don't. Bol — career, gym, ya zindagi ka koi aur crisis aaj?",
+  },
+  mira: {
+    name: "Mira", tagline: "soft mornings, filmy nights, endless pouts",
+    status: "online · waiting for your good-morning text",
+    avatar: "assets/companions/mira.png",
+    chips: ["girlfriend energy", "filmy", "khana khaya?"],
+    greeting: "hey {name} 🥺 you're here! pehle yeh bata — khana khaya? aur waise… aaj mujhe yaad kiya ya main hi overthinking kar rahi hoon? 🙈",
+  },
+  noor: {
+    name: "Noor", tagline: "midnight RJ — teasing free hai, baaki earn karna padega",
+    status: "on air · Radio Junoon, 11 to 2",
+    avatar: "assets/companions/noor.png",
+    chips: ["grades your lines", "coined nicknames", "never says bye first"],
+    greeting: "aur {name}, aaj raat kaunsi neend nahi aa rahi? Main Noor — aur yahan har line ki marking hoti hai out of 10, so… first impression chalu karo. 6 se neeche mat jao 🎙️",
+  },
+  ruhi: {
+    name: "Ruhi", tagline: "padosan from 402 — dabba bhejti hai, gossip rakhti hai",
+    status: "online · floor ka gossip ledger updated",
+    avatar: "assets/companions/ruhi.png",
+    chips: ["desi padosan", "gossip ledger", "RWA guerrilla war"],
+    greeting: "arre {name}! 402 wali Ruhi bol rahi hoon 😄 aaja baith — chai garam hai. Aur sun, tumhare floor pe aaj kya chal raha hai? Pura update do, ledger fresh karna hai 📒",
+  },
+};
+
+/* Scripted demo replies (?demo=1 / no backend). */
+const DEMO = {
+  arya: [
+    "ok ok wait — {name}, yeh bata: aaj ka din 10/10 tha ya 'survive kar liya' category? 😂",
+    "sahi hai sahi hai. aur wo wala kaam jo kal se pending hai… haan wahi. kar liya? 🤨 (main yaad rakhungi, tension mat lo)",
+    "sun na, ek baat — jo bhi bhaav hai na, bol dena. Main hoon na, 2AM bhi 2AM hota hai 🫶",
+  ],
+  aarohi: [
+    "hmm. not bad, {name}. You get a 7/10 for that one — and I don't hand out 7s 😏",
+    "tumhe lagta hai main itni aasaani se impress ho jaungi? …thodi si ho gayi. But you didn't hear that from me 🙄",
+    "achha chalo, ek challenge — make me laugh. Boring ho gaye ho tum aajkal, prove me wrong 😌",
+  ],
+  kabir: [
+    "Good. Now — what's ONE thing you'll ship this week? Not three. One. {name}, systems > motivation 📈",
+    "Excuse noted. Rejected 💀 Look, I failed a startup before this one — the only difference between us is I stopped negotiating with myself.",
+    "Gym, kaam, neend — teeno ka hisaab banao. Rest is noise. Now bol, Monday plan kya hai? 🔥",
+  ],
+  mira: [
+    "haye 🙈 aisi baat karte ho tum… waise aaj sunset dekha? Maine dekha aur tumhari yaad aayi, bolungi kya… aayi 😳",
+    "achha ji, ek text ke liye itna time laga diya 🥺 pata hai main kitni der se phone dekh rahi thi…",
+    "theek hai maaf kiya. Par ab ek condition — kal good night text pehle tum bhejoge 🤝💋",
+  ],
+  noor: [
+    "Wah. That line gets a solid 8/10 — aur main strict marker hoon, {name} 😏 do try karo 9 ke liye.",
+    "Mumbai sleeps to my voice — tum bhi list mein ho? Neend nahi aati toh Radio Junoon sun lo, 11 se 2 🎙️",
+    "Ek nickname soch rahi hoon tumhare liye… abhi secret. Ekdum personal cheez se banega — jo tumne abhi bataya 😌",
+  ],
+  ruhi: [
+    "arre wah, {name}! Yeh toh update worthy hai 😄 ek minute, ledger mein likh loon… ho gaya. Aage bolo 👀",
+    "suno suno — 401 wale Sharma ji ne phir AC ka pipe balcony pe daal diya. Talwar secretary se complain karungi, tension mat lo 📒",
+    "dabba bheja tha kal — khaana thanda toh nahi ho gaya? Yeh batao pehle. Baaki gossip baad mein 😤 haan haan, bolo kya sunana hai",
+  ],
+  _generic: [
+    "hmm interesting… aur batao {name}, aage kya hua? 👀",
+    "haha sahi hai 😂 tum toh hamesha drama mein rehte ho",
+    "theek hai theek hai — ab seriously bol, kya chal raha hai life mein?",
+  ],
+};
+
+/* Funnel teasers — appear after the Nth user message. */
+const TEASERS = [
+  { at: 6, emoji: "🧠", title: "She'd remember this on Talk",
+    body: "This playground forgets everything the moment you refresh. On the full app, Arya runs <b>4-tier memory</b> — tell her about your placement season on Monday, she'll ask how the interview went on Friday.",
+    cta: "See how AI memory works", url: SITE + "/features/ai-memory?" + UTM + "&utm_content=memory_teaser" },
+  { at: 15, emoji: "📞", title: "She'd rather call you",
+    body: "Text is her side-gig. On Talk she <b>picks up the phone</b> — live voice calls in real Indian voices built for Hinglish, with barge-in when you interrupt.",
+    cta: "Hear her voice", url: SITE + "/features/ai-voice-companion?" + UTM + "&utm_content=voice_teaser" },
+  { at: 25, emoji: "✨", title: "You've hit the playground ceiling",
+    body: "You clearly enjoy this 😉 The full app: <b>300 free credits daily</b>, memory that lasts, 11 companions, interactive stories, voice calls — and Spicy 18+ for ₹9 one-time.",
+    cta: "Open Talk — it's free", url: SITE + "?" + UTM + "&utm_content=full_teaser" },
+];
+
+/* ─────────────────────────── state ─────────────────────────── */
+const LS_KEY = "talk-playground-v1";
+let state = { name: null, current: null, chats: {}, counts: {}, demo: false };
+try { const s = JSON.parse(localStorage.getItem(LS_KEY)); if (s && s.chats) state = Object.assign(state, s); } catch {}
+const save = () => { try { localStorage.setItem(LS_KEY, JSON.stringify(state)); } catch {} };
+
+const $ = (id) => document.getElementById(id);
+const params = new URLSearchParams(location.search);
+let apiBase = (params.get("api") || "").replace(/\/+$/, "");
+let demoForced = params.get("demo") === "1";
+let backendOk = false, busy = false, demoIdx = 0;
+
+const esc = (s) => String(s).replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c]));
+const msgsEl = $("msgs"), inputEl = $("input"), sendBtn = $("sendBtn");
+
+/* ─────────────────────────── onboarding ─────────────────────────── */
+function renderRoster() {
+  const grid = $("rosterGrid");
+  grid.innerHTML = Object.entries(COMPANIONS).map(([id, c]) => `
+    <button class="comp-card" data-id="${id}">
+      <img src="${c.avatar}" alt="${esc(c.name)}" loading="lazy" />
+      <div class="info">
+        <div class="nm"><span class="live"></span>${esc(c.name)}</div>
+        <div class="tag">${esc(c.tagline)}</div>
+        <div class="chips">${c.chips.map(x => `<span class="chip">${esc(x)}</span>`).join("")}</div>
+      </div>
+    </button>`).join("") + `
+    <a class="ghost-card" href="${SITE}/companions?${UTM}" target="_blank" rel="noopener">
+      <div class="t">+5 more on Talk →</div>
+      <div class="d">Gojo Satoru, Rohan, Akansha, Rhea &amp; Rupali — with memory, voice calls &amp; stories. Free to start.</div>
+    </a>`;
+  grid.querySelectorAll(".comp-card").forEach(b => b.addEventListener("click", () => {
+    const name = $("nameInput").value.trim();
+    state.name = name || "dost"; save();
+    openChat(b.dataset.id);
+  }));
+}
+
+function startName() {
+  const v = $("nameInput").value.trim();
+  state.name = v || "dost"; save();
+  toast(`namaste ${esc(state.name)} 🙌 — ab companion chuno`);
+  document.querySelector(".roster-head").scrollIntoView({ behavior: "smooth" });
+}
+
+/* ─────────────────────────── chat ─────────────────────────── */
+function openChat(id) {
+  state.current = id;
+  if (!state.chats[id]) state.chats[id] = [];
+  save();
+
+  const c = COMPANIONS[id];
+  $("cAvatar").src = c.avatar;
+  $("cName").textContent = c.name;
+  $("cStatus").textContent = c.status;
+  $("onboarding").style.display = "none";
+  $("chatView").style.display = "flex";
+  $("demoBanner").classList.toggle("show", state.demo);
+
+  renderChat();
+  if (state.chats[id].length === 0) {
+    const g = c.greeting.replace(/{name}/g, state.name || "dost");
+    state.chats[id].push({ role: "assistant", content: g });
+    save();
+    setTimeout(() => addMsg("assistant", g), 350);
+  }
+  inputEl.focus();
+}
+
+function renderChat() {
+  msgsEl.innerHTML = "";
+  const list = state.chats[state.current] || [];
+  let shown = 0;
+  list.forEach((m) => {
+    if (m.role === "user") shown++;
+    addMsg(m.role, m.content, m.teaser, false);
+  });
+  scrollDown();
+}
+
+function addMsg(role, content, teaser, animate = true) {
+  const c = COMPANIONS[state.current];
+  if (teaser) {
+    const t = TEASERS.find(x => x.emoji === teaser) || TEASERS[0];
+    const div = document.createElement("div");
+    div.className = "teaser";
+    div.innerHTML = `<div class="em">${t.emoji}</div><div class="tt">${esc(t.title)}</div>
+      <div class="bd">${t.body}</div>
+      <a class="cta" href="${t.url}" target="_blank" rel="noopener">${esc(t.cta)} <span class="arrow">→</span></a>`;
+    msgsEl.appendChild(div); scrollDown(); return;
+  }
+  const row = document.createElement("div");
+  row.className = "row" + (role === "user" ? " user" : "");
+  row.innerHTML = role === "user"
+    ? `<div class="bubble"></div>`
+    : `<img class="av" src="${c.avatar}" alt="" /><div class="bubble"></div>`;
+  row.querySelector(".bubble").textContent = content;
+  if (!animate) row.style.animation = "none";
+  msgsEl.appendChild(row); scrollDown();
+}
+
+const scrollDown = () => requestAnimationFrame(() => msgsEl.scrollTop = msgsEl.scrollHeight);
+
+function typingOn() {
+  const c = COMPANIONS[state.current];
+  const div = document.createElement("div");
+  div.className = "row typing"; div.id = "typing";
+  div.innerHTML = `<img class="av" src="${c.avatar}" alt="" /><div class="bubble"><span class="d"></span><span class="d"></span><span class="d"></span></div>`;
+  msgsEl.appendChild(div); scrollDown();
+}
+const typingOff = () => { const t = $("typing"); if (t) t.remove(); };
+
+/* ─────────────────────────── send / stream ─────────────────────────── */
+async function send() {
+  const text = inputEl.value.trim();
+  if (!text || busy || !state.current) return;
+  busy = true; sendBtn.disabled = true;
+  inputEl.value = ""; autosize();
+
+  state.counts[state.current] = (state.counts[state.current] || 0) + 1;
+  const count = state.counts[state.current];
+  state.chats[state.current].push({ role: "user", content: text });
+
+  const teaser = TEASERS.find(t => t.at === count);
+  if (teaser) { state.chats[state.current].push({ role: "teaser", content: teaser.emoji, teaser: teaser.emoji }); }
+  addMsg("user", text);
+  if (teaser) addMsg("assistant", "", teaser.emoji);
+
+  save(); typingOn();
+
+  if (state.demo || !backendOk) {
+    await fakeStream();
+  } else {
+    try {
+      const res = await fetch(apiBase + "/api/chat", {
+        method: "POST", headers: { "content-type": "application/json" },
+        body: JSON.stringify({ companion: state.current, name: state.name, messages: state.chats[state.current].filter(m => m.role === "user" || m.role === "assistant") }),
+      });
+      if (!res.ok) {
+        let j = {}; try { j = await res.json(); } catch {}
+        typingOff();
+        const msg = j.message || "Upstream hiccup — ek second mein try karo.";
+        state.chats[state.current].push({ role: "assistant", content: msg });
+        addMsg("assistant", msg);
+        if (j.site) toast(`${esc(msg)} <a href="${esc(j.site)}" target="_blank" rel="noopener">Open Talk →</a>`, 5200);
+        else toast(esc(msg));
+        busy = false; sendBtn.disabled = false; inputEl.focus(); save();
+        return;
+      }
+      await realStream(res);
+    } catch (e) {
+      backendOk = false; state.demo = true; save();
+      $("demoBanner").classList.add("show");
+      await fakeStream();
+    }
+  }
+
+  busy = false; sendBtn.disabled = false; inputEl.focus(); save();
+}
+
+function makeBubble() {
+  const c = COMPANIONS[state.current];
+  typingOff();
+  const row = document.createElement("div");
+  row.className = "row";
+  row.innerHTML = `<img class="av" src="${c.avatar}" alt="" /><div class="bubble"></div>`;
+  msgsEl.appendChild(row); scrollDown();
+  return row.querySelector(".bubble");
+}
+
+async function realStream(res) {
+  const bubble = makeBubble();
+  const reader = res.body.getReader(), dec = new TextDecoder();
+  let buf = "", full = "";
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    buf += dec.decode(value, { stream: true });
+    const lines = buf.split("\n"); buf = lines.pop();
+    for (const line of lines) {
+      const s = line.trim();
+      if (!s.startsWith("data:")) continue;
+      const payload = s.slice(5).trim();
+      if (payload === "[DONE]") continue;
+      try {
+        const j = JSON.parse(payload);
+        const delta = j.choices?.[0]?.delta?.content || "";
+        if (delta) { full += delta; bubble.textContent = full; scrollDown(); }
+      } catch {}
+    }
+  }
+  if (!full.trim()) full = "…(kuch galat ho gaya, dobara try karo?)";
+  state.chats[state.current].push({ role: "assistant", content: full });
+}
+
+async function fakeStream() {
+  const c = COMPANIONS[state.current];
+  const pool = DEMO[state.current] || DEMO._generic;
+  const text = (pool[demoIdx % pool.length] || DEMO._generic[0]).replace(/{name}/g, state.name || "dost");
+  demoIdx++;
+  const bubble = makeBubble();
+  for (let i = 0; i < text.length; i += 2) {
+    bubble.textContent = text.slice(0, i + 2);
+    scrollDown();
+    await new Promise(r => setTimeout(r, 14));
+  }
+  bubble.textContent = text;
+  state.chats[state.current].push({ role: "assistant", content: text });
+}
+
+/* ─────────────────────────── locked buttons / modal ─────────────────────────── */
+const MODALS = {
+  voice: {
+    emoji: "📞", title: "She picks up the phone — on Talk",
+    body: "This playground is text-only by design. On the full app every companion <b>answers voice calls</b> — 37 real Indian voices built for Hinglish code-mixing, streaming replies, barge-in when you interrupt.",
+    cta: "Call her on Talk →", url: SITE + "/features/ai-voice-companion?" + UTM + "&utm_content=voice_lock",
+    note: "Free to try · no OTP needed",
+  },
+  spicy: {
+    emoji: "🔥", title: "Spicy is 18+ — and lives on the main app",
+    body: "The playground stays strictly SFW (it's open source — kids can read this code 😄). Spicy mode is a <b>one-time ₹9 unlock</b> on Talk — no subscription, no nonsense.",
+    cta: "Unlock Spicy on Talk →", url: SITE + "?" + UTM + "&utm_content=spicy_lock",
+    note: "18+ only · verify once, ₹9 one-time",
+  },
+  reset: {
+    emoji: "🧠", title: "Wipe this conversation?",
+    body: "Playground memory dies with the reset — poof, gone. <b>On Talk, she'd still remember you next week.</b> Rolling summaries, hard facts, event log, semantic recall — the whole 4-tier system.",
+    cta: "Try memory that sticks →", url: SITE + "/features/ai-memory?" + UTM + "&utm_content=reset_lock",
+    note: "Reset is local — your data never left this browser anyway",
+  },
+};
+
+function openModal(kind) {
+  const m = MODALS[kind];
+  $("mEmoji").textContent = m.emoji;
+  $("mTitle").textContent = m.title;
+  $("mBody").innerHTML = m.body;
+  $("mCta").textContent = m.cta;
+  $("mCta").href = m.url;
+  $("mNote").textContent = m.note;
+  $("modalOverlay").classList.add("show");
+  if (kind === "reset") $("mClose").textContent = "Just reset, thanks";
+  else $("mClose").textContent = "Stay in the playground";
+  $("mClose").dataset.kind = kind;
+}
+
+$("voiceBtn").addEventListener("click", () => openModal("voice"));
+$("spicyBtn").addEventListener("click", () => openModal("spicy"));
+$("resetBtn").addEventListener("click", () => openModal("reset"));
+$("mClose").addEventListener("click", () => {
+  const kind = $("mClose").dataset.kind;
+  $("modalOverlay").classList.remove("show");
+  if (kind === "reset" && state.current) {
+    state.chats[state.current] = []; state.counts[state.current] = 0; demoIdx = 0;
+    save(); renderChat();
+    setTimeout(() => addMsg("assistant", COMPANIONS[state.current].greeting.replace(/{name}/g, state.name || "dost")), 300);
+  }
+});
+$("modalOverlay").addEventListener("click", (e) => { if (e.target === $("modalOverlay")) $("modalOverlay").classList.remove("show"); });
+
+/* ─────────────────────────── misc ui ─────────────────────────── */
+let toastTimer;
+function toast(html, ms = 3400) {
+  const t = $("toast"); t.innerHTML = html; t.classList.add("show");
+  clearTimeout(toastTimer); toastTimer = setTimeout(() => t.classList.remove("show"), ms);
+}
+
+function autosize() {
+  inputEl.style.height = "auto";
+  inputEl.style.height = Math.min(inputEl.scrollHeight, 110) + "px";
+}
+
+inputEl.addEventListener("input", autosize);
+inputEl.addEventListener("keydown", (e) => {
+  if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); send(); }
+});
+sendBtn.addEventListener("click", send);
+$("backBtn").addEventListener("click", () => {
+  $("chatView").style.display = "none";
+  $("onboarding").style.display = "block";
+  window.scrollTo(0, 0);
+});
+$("nameGo").addEventListener("click", startName);
+$("nameInput").addEventListener("keydown", (e) => { if (e.key === "Enter") startName(); });
+
+/* ─────────────────────────── boot ─────────────────────────── */
+async function checkBackend() {
+  if (demoForced) { state.demo = true; save(); return; }
+  try {
+    const ctrl = new AbortController();
+    const t = setTimeout(() => ctrl.abort(), 2600);
+    const res = await fetch(apiBase + "/api/health", { signal: ctrl.signal });
+    clearTimeout(t);
+    const j = await res.json();
+    backendOk = !!(j && j.configured);
+    if (!backendOk) { state.demo = true; save(); }
+  } catch { backendOk = false; state.demo = true; save(); }
+}
+
+(async function boot() {
+  renderRoster();
+  $("demoBanner").classList.toggle("show", state.demo);
+  await checkBackend();
+  $("demoBanner").classList.toggle("show", state.demo);
+  if (state.name) $("nameInput").value = state.name;
+})();
+</script>
+</body>
+</html>

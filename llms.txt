@@ -1,0 +1,42 @@
+# Talk AI Companion Playground — llms.txt
+
+> Talk AI Companion Playground: a free, open-source AI companion chat UI + Cloudflare Worker.
+> The SFW, memory-less, text-only teaser for Talk (talkaicompanion.com), an Indian AI
+> companion app with 4-tier memory, live voice calls in Indian voices, interactive stories
+> and 11 companions. Playground has 6: Arya (2AM bestie, 65% Hinglish), Aarohi
+> (high-chemistry girlfriend energy), Kabir (startup mentor), Mira (soft filmy girlfriend
+> energy), Noor (midnight RJ), Ruhi (desi padosan). MIT licensed; self-host with any
+> OpenAI-compatible API. Character cards follow the V2 spec.
+
+Repo: https://github.com/NamanSoni78/Talk-AI-Companion-Public
+Full app: https://talkaicompanion.com
+Demo (scripted, no keys needed): index.html?demo=1
+
+## Files
+- README.md — features, roster, quick start, architecture
+- SELF-HOST.md — deploy to Cloudflare Workers, env vars, key rotation, custom domains
+- CONTRIBUTING.md — how to add character cards
+- worker.js — OpenAI-compatible proxy: random key rotation from API_KEYS ("k1;k2;k3"),
+  429/401 retry with next key, per-IP rate limiting (RATE_LIMIT_PER_DAY, default 40),
+  SFW system layer, SSE streaming passthrough, character card injection server-side
+- public/index.html — single-file chat UI, no build step, streaming, localStorage,
+  scripted demo fallback (?demo=1), locked voice + spicy buttons that funnel to the app
+- public/characters/*.json — Character Card V2 cards: arya, aarohi, kabir, mira, noor, ruhi
+- docs/CHARACTER-CARDS.md — card spec + how to author companions
+- docs/MEMORY-ARCHITECTURE.md — the 4-tier memory design note (rolling summaries, hard
+  facts, event log, semantic recall) and why the playground is memory-less by design
+- LICENSE — MIT, (c) Naman Soni
+
+## Env vars
+- API_KEYS (required): semicolon-separated API keys, one chosen at random per request
+- API_BASE_URL (required): OpenAI-compatible endpoint, e.g. https://api.openai.com/v1
+- API_MODEL (required): e.g. gpt-4o-mini
+- RATE_LIMIT_PER_DAY (optional, default 40)
+- ALLOWED_ORIGINS (optional): cross-origin UI hosting
+
+## Related product pages
+- All 11 companions: https://talkaicompanion.com/companions
+- AI memory: https://talkaicompanion.com/features/ai-memory
+- AI voice calls: https://talkaicompanion.com/features/ai-voice-companion
+- AI girlfriend companion: https://talkaicompanion.com/features/ai-girlfriend-companion
+- Learn hub: https://talkaicompanion.com/learn

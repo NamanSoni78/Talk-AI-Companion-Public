@@ -1,0 +1,20 @@
+# secrets / env
+.dev.vars
+.env
+.env.*
+!.env.example
+!.dev.vars.example
+
+# node
+node_modules/
+package-lock.json
+
+# wrangler
+.wrangler/
+
+# os / editor
+.DS_Store
+Thumbs.db
+*.log
+.vscode/
+.idea/

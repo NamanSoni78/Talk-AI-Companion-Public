@@ -1,0 +1,21 @@
+{
+  "name": "talk-ai-companion-playground",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Free, open-source AI companion chat playground — a teaser for talkaicompanion.com",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "tail": "wrangler tail",
+    "test": "node scripts/validate-characters.mjs && node scripts/test-worker.mjs"
+  },
+  "devDependencies": {
+    "wrangler": "^4.0.0"
+  },
+  "license": "MIT",
+  "author": "Naman Soni",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NamanSoni78/Talk-AI-Companion-Public"
+  }
+}

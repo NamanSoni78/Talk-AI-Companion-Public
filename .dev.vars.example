@@ -1,0 +1,28 @@
+# ──────────────────────────────────────────────────────────────
+# Talk AI Companion Playground — local dev secrets
+# Copy this file to `.dev.vars` (git-ignored) and fill in values.
+#   cp .dev.vars.example .dev.vars && npx wrangler dev
+#
+# NEVER commit your real .dev.vars. In production use:
+#   wrangler secret put API_KEYS
+# ──────────────────────────────────────────────────────────────
+
+# Your OpenAI-compatible keys, semicolon-separated.
+# One is picked at random per request; on 429/401 the worker rotates to another.
+API_KEYS=sk-your-first-key;sk-your-second-key;sk-your-third-key
+
+# Any OpenAI-compatible endpoint (with /v1). Examples:
+#   https://api.openai.com/v1
+#   https://api.groq.com/openai/v1
+#   https://your-proxy.example.com/v1
+API_BASE_URL=https://api.openai.com/v1
+
+# Model name your endpoint understands, e.g. gpt-4o-mini / llama-3.1-70b-versatile
+API_MODEL=gpt-4o-mini
+
+# Optional — messages per IP per day (default: 40)
+RATE_LIMIT_PER_DAY=40
+
+# Optional — if you host the UI elsewhere (e.g. GitHub Pages) and want it to
+# call this worker, allow its origin here (comma-separated).
+# ALLOWED_ORIGINS=https://yourname.github.io

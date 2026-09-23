@@ -1,0 +1,21 @@
+name: validate
+
+on:
+  pull_request:
+    paths: ["public/characters/**", "worker.js", "scripts/**"]
+  push:
+    branches: [main]
+    paths: ["public/characters/**", "worker.js", "scripts/**"]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Validate Character Card V2 JSONs
+        run: node scripts/validate-characters.mjs
+      - name: Worker smoke tests (streaming, key rotation, rate limiting, SFW layer)
+        run: node scripts/test-worker.mjs
